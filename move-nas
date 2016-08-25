@@ -1,0 +1,17 @@
+#!/bin/bash
+
+NASMP3=[ remote path ]
+OSMP3=[ local path ]
+
+cd $NASMP3
+if [ $? -eq 0 ]; then
+    logger -i -t $(basename $0) "Moviendo DATA"
+    /usr/bin/find $OSMP3 -type f -name "*.mp3" -mtime +90 -exec mv {} ${NASMP3} \;
+    if [ $? -eq 0 ]; then
+    	logger -i -t $(basename $0) "Movimiento finalizado correctamente"
+    else
+        logger -i -t $(basename $0) "Error al mover los archivos de ${OSMP3} a [ ${NASMP3} ]"
+    fi
+else
+    logger -i -t $(basename $0) "no se puede acceder al directorio $NASMP3"
+fi
